@@ -1,0 +1,370 @@
+<!doctype html>
+<html lang="uz">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Motor Usta Servis</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..800&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+/* Layout: workshop job-card language — a ruled work order as the hero, a price board, a booking slip. */
+:root{
+  --bg:#eceeed; --surface:#f8f9f8; --ink:#15181b; --muted:#5a6168; --line:#cdd2d4;
+  --accent:#e2581b; --accent-ink:#ffffff; --steel:#2a3d4f; --ok:#2f7d4f;
+  --display:"Archivo","Arial Narrow",Arial,sans-serif;
+  --body:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,Menlo,Consolas,monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#111417; --surface:#191d21; --ink:#e9ecee; --muted:#9aa3ab; --line:#2c3238;
+  --accent:#f0682a; --accent-ink:#111417; --steel:#8fb0cc; --ok:#5cc28a; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#111417; --surface:#191d21; --ink:#e9ecee; --muted:#9aa3ab; --line:#2c3238;
+  --accent:#f0682a; --accent-ink:#111417; --steel:#8fb0cc; --ok:#5cc28a; color-scheme:dark}
+
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font:400 16px/1.6 var(--body);margin:0;-webkit-font-smoothing:antialiased}
+a{color:inherit}
+h1,h2,h3{font-family:var(--display);font-stretch:78%;font-weight:800;line-height:1;margin:0;text-wrap:balance;letter-spacing:-.005em;text-transform:uppercase}
+h2{font-size:clamp(34px,5vw,58px)}
+p{margin:0}
+.wrap{max-width:1180px;margin:0 auto;padding-left:max(20px,env(safe-area-inset-left,0px));padding-right:max(20px,env(safe-area-inset-right,0px))}
+.label{font:500 12px/1 var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+.label b{color:var(--accent);font-weight:600}
+section{padding-block:88px}
+.sec-head{display:flex;justify-content:space-between;align-items:end;gap:24px;flex-wrap:wrap;margin-bottom:40px}
+.sec-head > div{display:grid;gap:14px}
+.sec-head p{max-width:420px;color:var(--muted)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;font:600 15px var(--body);padding:15px 22px;border-radius:6px;border:2px solid var(--accent);background:var(--accent);color:var(--accent-ink);text-decoration:none;cursor:pointer;transition:transform .15s,background .15s}
+.btn:hover{transform:translateY(-1px)}
+.btn.ghost{background:transparent;color:var(--ink);border-color:var(--ink)}
+.btn svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+
+/* demo strip + header */
+.demo{background:var(--steel);color:var(--bg);text-align:center;font:500 13px var(--body);padding-block:9px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--surface)}
+header.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:9;background:var(--surface);border-bottom:1px solid var(--line)}
+header.top .wrap{display:flex;align-items:center;justify-content:space-between;gap:16px;height:68px}
+.brand{display:flex;align-items:center;gap:12px;text-decoration:none}
+.brand-mark{width:38px;height:38px;border-radius:6px;background:var(--accent);display:grid;place-items:center}
+.brand-mark svg{width:22px;height:22px;fill:none;stroke:var(--accent-ink);stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
+.brand b{font:800 22px/1 var(--display);font-stretch:75%;text-transform:uppercase;letter-spacing:.01em}
+.brand small{display:block;font:500 10px/1 var(--mono);letter-spacing:.14em;color:var(--muted);margin-top:4px}
+.nav{display:flex;gap:28px;font-size:14px;font-weight:500}
+.nav a{text-decoration:none;color:var(--muted)}
+.nav a:hover{color:var(--ink)}
+.top .btn{padding:10px 16px;font-size:14px}
+
+/* hero */
+.hero{padding-block:64px 80px}
+.hero .wrap{display:grid;grid-template-columns:1.1fr .9fr;gap:56px;align-items:center}
+.hero-copy{display:grid;gap:26px;min-width:0}
+.hero h1{font-size:clamp(42px,6.2vw,80px);overflow-wrap:anywhere}
+.hero h1 span{color:var(--accent)}
+.hero p.lead{font-size:18px;color:var(--muted);max-width:520px}
+.cta{display:flex;gap:12px;flex-wrap:wrap}
+.facts{display:grid;grid-template-columns:repeat(3,auto);gap:28px;justify-content:start;padding-top:22px;border-top:1px solid var(--line)}
+.facts b{display:block;font:800 30px/1 var(--display);font-stretch:80%}
+.facts small{font-size:13px;color:var(--muted)}
+
+/* job card (work order) */
+.order{background:var(--surface);border:1px solid var(--line);border-radius:10px;box-shadow:0 24px 60px -30px rgba(0,0,0,.35);overflow:hidden;min-width:0}
+.order-head{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:18px 22px;border-bottom:2px dashed var(--line)}
+.order-head .no{font:600 13px var(--mono);letter-spacing:.06em}
+.status{font:600 12px var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--ok);display:flex;align-items:center;gap:8px}
+.status:before{content:"";width:8px;height:8px;border-radius:50%;background:var(--ok)}
+.order-body{padding:20px 22px;display:grid;gap:18px}
+.car-row{display:flex;justify-content:space-between;align-items:center;gap:14px;flex-wrap:wrap}
+.car-row .model{font:700 22px/1.1 var(--display);font-stretch:85%;text-transform:uppercase}
+.car-row .km{font:400 13px var(--mono);color:var(--muted);margin-top:4px}
+.plate{display:inline-flex;align-items:stretch;border:2px solid var(--ink);border-radius:5px;font:600 17px/1 var(--mono);background:#fff;color:#15181b;overflow:hidden}
+.plate .reg{padding:7px 8px;border-right:2px solid #15181b}
+.plate .num{padding:7px 10px;letter-spacing:.06em}
+.plate .uz{display:grid;place-items:center;padding:0 6px;font-size:9px;letter-spacing:.04em;border-left:2px solid #15181b}
+.jobs{list-style:none;margin:0;padding:0;display:grid}
+.jobs li{display:grid;grid-template-columns:22px 1fr auto;gap:12px;align-items:center;padding:11px 0;border-bottom:1px solid var(--line);font-size:15px}
+.jobs li:last-child{border-bottom:0}
+.tick{width:20px;height:20px;border-radius:4px;background:var(--ok);display:grid;place-items:center}
+.tick svg{width:13px;height:13px;fill:none;stroke:#fff;stroke-width:3;stroke-linecap:round;stroke-linejoin:round}
+.jobs .sum{font:500 14px var(--mono);font-variant-numeric:tabular-nums;color:var(--muted);white-space:nowrap}
+.order-foot{display:flex;justify-content:space-between;align-items:baseline;gap:12px;padding:16px 22px;background:var(--bg);border-top:1px solid var(--line)}
+.order-foot b{font:600 20px var(--mono);font-variant-numeric:tabular-nums}
+.order-foot small{color:var(--muted);font-size:13px}
+
+/* services */
+.services{background:var(--surface);border-block:1px solid var(--line)}
+.svc-grid{display:grid;grid-template-columns:repeat(4,1fr);border-top:1px solid var(--line);border-left:1px solid var(--line)}
+.svc{padding:28px 24px 30px;border-right:1px solid var(--line);border-bottom:1px solid var(--line);display:grid;gap:12px;align-content:start;min-width:0}
+.svc svg{width:30px;height:30px;fill:none;stroke:var(--accent);stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.svc h3{font-size:22px;font-stretch:82%}
+.svc p{color:var(--muted);font-size:14.5px}
+
+/* prices */
+.price-wrap{display:grid;grid-template-columns:1fr 340px;gap:40px;align-items:start}
+.board{background:var(--surface);border:1px solid var(--line);border-radius:10px;overflow-x:auto}
+table{width:100%;border-collapse:collapse;min-width:460px}
+th,td{text-align:left;padding:16px 22px;border-bottom:1px solid var(--line);vertical-align:top}
+th{font:500 11px var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--muted);background:var(--bg)}
+td.p{font:600 16px var(--mono);font-variant-numeric:tabular-nums;white-space:nowrap;text-align:right}
+th.p{text-align:right}
+td small{display:block;color:var(--muted);font-size:13px}
+tr:last-child td{border-bottom:0}
+.note{background:var(--steel);color:var(--bg);border-radius:10px;padding:28px;display:grid;gap:14px}
+.note h3{font-size:28px;font-stretch:80%}
+.note p{opacity:.88;font-size:15px}
+.sample{display:inline-block;font:600 11px var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--accent);border:1px solid var(--accent);border-radius:4px;padding:4px 8px}
+
+/* process */
+.steps{display:grid;grid-template-columns:repeat(4,1fr);gap:20px;counter-reset:s}
+.step{display:grid;gap:10px;align-content:start;padding-top:18px;border-top:3px solid var(--ink)}
+.step:before{counter-increment:s;content:"0" counter(s);font:600 13px var(--mono);color:var(--accent)}
+.step h3{font-size:24px;font-stretch:82%}
+.step p{color:var(--muted);font-size:15px}
+
+/* photos */
+.photos{display:grid;grid-template-columns:1.4fr 1fr 1fr;grid-auto-rows:220px;gap:12px}
+.slot{border:2px dashed var(--line);border-radius:10px;background:repeating-linear-gradient(-45deg,transparent 0 12px,color-mix(in srgb,var(--line) 45%,transparent) 12px 13px),var(--surface);display:grid;place-items:center;text-align:center;padding:20px;color:var(--muted);min-width:0}
+.slot:first-child{grid-row:span 2}
+.slot svg{width:34px;height:34px;fill:none;stroke:currentColor;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round;margin:0 auto 10px;display:block}
+.slot b{display:block;color:var(--ink);font-size:15px}
+.slot small{font-size:13px}
+
+/* reviews */
+.reviews{background:var(--surface);border-block:1px solid var(--line)}
+.rev-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.rev{border:1px solid var(--line);border-radius:10px;padding:26px;display:grid;gap:16px;align-content:start;background:var(--bg)}
+.stars{color:var(--accent);letter-spacing:3px;font-size:16px}
+.rev p{font-size:15.5px}
+.rev footer{display:flex;justify-content:space-between;align-items:center;gap:10px;font-size:13px;color:var(--muted);border-top:1px solid var(--line);padding-top:14px}
+
+/* booking + contact */
+.book .wrap{display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:start}
+.slip{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:30px;display:grid;gap:18px}
+.slip h3{font-size:30px;font-stretch:80%}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.field{display:grid;gap:6px;min-width:0}
+.field label{font:500 12px var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.field input,.field select{width:100%;font:400 16px var(--body);color:var(--ink);background:var(--bg);border:1px solid var(--line);border-radius:6px;padding:13px 14px}
+.slip .btn{width:100%}
+.done{border:1px solid var(--ok);border-radius:8px;padding:16px 18px;color:var(--ink);background:color-mix(in srgb,var(--ok) 10%,transparent);font-size:15px}
+.done b{color:var(--ok)}
+.info{display:grid;gap:0;border-top:3px solid var(--ink)}
+.info .item{display:grid;grid-template-columns:130px 1fr;gap:16px;padding:20px 0;border-bottom:1px solid var(--line)}
+.info .item span:first-child{font:500 12px var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--muted);padding-top:3px}
+.info .item span:last-child{font-size:18px;font-weight:500}
+.hours{display:grid;grid-template-columns:auto auto;gap:4px 20px;justify-content:start;font-variant-numeric:tabular-nums}
+.contact-btns{display:flex;gap:12px;flex-wrap:wrap;margin-top:24px}
+.tg{background:#229ed9;border-color:#229ed9;color:#fff}
+
+footer.site{border-top:1px solid var(--line);padding-block:28px;font-size:13px;color:var(--muted)}
+footer.site .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
+
+@media (max-width:980px){
+  .nav{display:none}
+  .hero .wrap,.price-wrap,.book .wrap{grid-template-columns:1fr}
+  .svc-grid{grid-template-columns:1fr 1fr}
+  .steps{grid-template-columns:1fr 1fr}
+  .rev-grid{grid-template-columns:1fr}
+  .photos{grid-template-columns:1fr 1fr}
+  .slot:first-child{grid-column:span 2;grid-row:auto}
+}
+@media (max-width:560px){
+  section{padding-block:64px}
+  .top .btn span{display:none}
+  .facts{grid-template-columns:1fr 1fr;gap:20px}
+  .svc-grid,.steps{grid-template-columns:1fr}
+  .photos{grid-template-columns:1fr;grid-auto-rows:170px}
+  .slot:first-child{grid-column:auto}
+  .row2{grid-template-columns:1fr}
+  .info .item{grid-template-columns:1fr;gap:6px}
+  .slip{padding:22px}
+  .order-head,.order-body,.order-foot{padding-left:16px;padding-right:16px}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+
+</head>
+<body>
+<div class="demo" role="note">Bu namuna (demo) sayt. Nom, narxlar, rasmlar va sharhlar ustaxonangiz ma’lumotlari bilan almashtiriladi.</div>
+
+<header class="top"><div class="wrap">
+  <a class="brand" href="#">
+    <span class="brand-mark"><svg viewBox="0 0 24 24"><path d="M14.7 6.3a4 4 0 0 0-5.4 5.4L3 18l3 3 6.3-6.3a4 4 0 0 0 5.4-5.4l-2.6 2.6-2.4-.6-.6-2.4z"/></svg></span>
+    <span><b>Motor Usta</b><small>AVTOSERVIS · TOSHKENT</small></span>
+  </a>
+  <nav class="nav" aria-label="Bo‘limlar"><a href="#xizmatlar">Xizmatlar</a><a href="#narxlar">Narxlar</a><a href="#ustaxona">Ustaxona</a><a href="#sharhlar">Sharhlar</a><a href="#aloqa">Aloqa</a></nav>
+  <a class="btn" href="#navbat"><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></svg><span>Navbatga yozilish</span></a>
+</div></header>
+
+<section class="hero"><div class="wrap">
+  <div class="hero-copy">
+    <div class="label"><b>●</b> Ochiq · har kuni 09:00–20:00</div>
+    <h1>Mashinangiz — <span>ishonchli</span> qo‘llarda</h1>
+    <p class="lead">Kompyuter diagnostikadan dvigatel ta’mirigacha. Ishni boshlashdan oldin narxni aytamiz, ishdan keyin kafolat beramiz.</p>
+    <div class="cta">
+      <a class="btn" href="#navbat">Navbatga yozilish</a>
+      <a class="btn ghost" href="#narxlar">Narxlarni ko‘rish</a>
+    </div>
+    <div class="facts">
+      <div><b>30 daq.</b><small>diagnostika</small></div>
+      <div><b>Kafolat</b><small>bajarilgan ishga</small></div>
+      <div><b>7/7</b><small>dam olishsiz</small></div>
+    </div>
+  </div>
+
+  <aside class="order" aria-label="Ish varaqasi namunasi">
+    <div class="order-head"><span class="no">ISH VARAQASI № 0482</span><span class="status">Tayyor</span></div>
+    <div class="order-body">
+      <div class="car-row">
+        <div><div class="model">Chevrolet Cobalt</div><div class="km">Probeg: 86 400 km</div></div>
+        <div class="plate" aria-label="Davlat raqami namunasi"><span class="reg">01</span><span class="num">A 123 BC</span><span class="uz">UZ</span></div>
+      </div>
+      <ul class="jobs">
+        <li><span class="tick"><svg viewBox="0 0 24 24"><path d="M5 12l5 5 9-10"/></svg></span>Kompyuter diagnostika<span class="sum">100 000</span></li>
+        <li><span class="tick"><svg viewBox="0 0 24 24"><path d="M5 12l5 5 9-10"/></svg></span>Moy va filtr almashtirish<span class="sum">60 000</span></li>
+        <li><span class="tick"><svg viewBox="0 0 24 24"><path d="M5 12l5 5 9-10"/></svg></span>Old tormoz kolodkalari<span class="sum">90 000</span></li>
+        <li><span class="tick"><svg viewBox="0 0 24 24"><path d="M5 12l5 5 9-10"/></svg></span>Razval-sxojdeniye<span class="sum">120 000</span></li>
+      </ul>
+    </div>
+    <div class="order-foot"><small>Ish haqi jami (namuna)</small><b>370 000 so‘m</b></div>
+  </aside>
+</div></section>
+
+<section class="services" id="xizmatlar"><div class="wrap">
+  <div class="sec-head">
+    <div><div class="label">Ko‘rsatiladigan xizmatlar</div><h2>Nimani ta’mirlaymiz</h2></div>
+    <p>Yengil avtomobillar, krossoverlar va kichik tijorat mashinalari.</p>
+  </div>
+  <div class="svc-grid">
+    <div class="svc"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="12" rx="2"/><path d="M8 20h8M12 16v4M7 10l2 2 3-4 2 3 3-2"/></svg><h3>Kompyuter diagnostika</h3><p>Xatolarni skaner bilan o‘qiymiz va natijani tushuntirib beramiz.</p></div>
+    <div class="svc"><svg viewBox="0 0 24 24"><path d="M4 10h3l2-3h6l2 3h3v7H4z"/><path d="M8 17v2M16 17v2M1 12h3M20 12h3"/></svg><h3>Dvigatel ta’miri</h3><p>Kapital va joriy ta’mir, GRM, porshen guruhi.</p></div>
+    <div class="svc"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="3"/><path d="M12 4v5M12 15v5M4 12h5M15 12h5"/></svg><h3>Xodovoy qism</h3><p>Amortizator, sharovoy, saylentblok va rulevoy tortqilar.</p></div>
+    <div class="svc"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg><h3>Tormoz tizimi</h3><p>Kolodka, disk va tormoz suyuqligini almashtirish.</p></div>
+    <div class="svc"><svg viewBox="0 0 24 24"><path d="M12 3c3 4 6 7 6 11a6 6 0 0 1-12 0c0-4 3-7 6-11z"/></svg><h3>Moy almashtirish</h3><p>Motor va karobka moyi, filtrlar. 20 daqiqada.</p></div>
+    <div class="svc"><svg viewBox="0 0 24 24"><path d="M13 2L4 14h7l-1 8 9-12h-7z"/></svg><h3>Avtoelektrik</h3><p>Akkumulyator, generator, starter, simlar va chiroqlar.</p></div>
+    <div class="svc"><svg viewBox="0 0 24 24"><path d="M12 2v20M4.9 6.5l14.2 11M19.1 6.5L4.9 17.5"/></svg><h3>Konditsioner</h3><p>Freon to‘ldirish, germetiklikni tekshirish va tozalash.</p></div>
+    <div class="svc"><svg viewBox="0 0 24 24"><path d="M3 12h18M7 8l-4 4 4 4M17 8l4 4-4 4"/></svg><h3>Razval-sxojdeniye</h3><p>3D stendda g‘ildirak burchaklarini sozlash.</p></div>
+  </div>
+</div></section>
+
+<section id="narxlar"><div class="wrap">
+  <div class="sec-head">
+    <div><div class="label">Xizmatlar narxlari</div><h2>Narxlar oldindan ma’lum</h2></div>
+    <span class="sample">Namuna narxlar</span>
+  </div>
+  <div class="price-wrap">
+    <div class="board"><table>
+      <thead><tr><th>Xizmat</th><th class="p">Narx (so‘m)</th></tr></thead>
+      <tbody>
+        <tr><td>Kompyuter diagnostika<small>30 daqiqa</small></td><td class="p">100 000 dan</td></tr>
+        <tr><td>Motor moyini almashtirish<small>Ish haqi, moy alohida</small></td><td class="p">60 000 dan</td></tr>
+        <tr><td>Tormoz kolodkalarini almashtirish<small>Bitta o‘q</small></td><td class="p">90 000 dan</td></tr>
+        <tr><td>Razval-sxojdeniye<small>3D stend</small></td><td class="p">120 000 dan</td></tr>
+        <tr><td>Konditsionerga freon to‘ldirish</td><td class="p">150 000 dan</td></tr>
+        <tr><td>GRM kamarini almashtirish</td><td class="p">350 000 dan</td></tr>
+        <tr><td>Dvigatel kapital ta’miri<small>Diagnostikadan keyin</small></td><td class="p">Kelishiladi</td></tr>
+      </tbody>
+    </table></div>
+    <div class="note">
+      <h3>Qo‘shimcha to‘lovsiz</h3>
+      <p>Ishni boshlashdan oldin aniq narxni aytamiz. Qo‘shimcha ish kerak bo‘lsa, avval siz bilan kelishamiz.</p>
+      <p>Ehtiyot qismlarni o‘zingiz olib kelishingiz yoki bizdan buyurtma qilishingiz mumkin.</p>
+    </div>
+  </div>
+</div></section>
+
+<section style="padding-top:0"><div class="wrap">
+  <div class="sec-head"><div><div class="label">Ish jarayoni</div><h2>Qanday ishlaymiz</h2></div></div>
+  <div class="steps">
+    <div class="step"><h3>Yozilasiz</h3><p>Sayt, Telegram yoki telefon orqali qulay vaqtni tanlaysiz.</p></div>
+    <div class="step"><h3>Diagnostika</h3><p>Muammoni topamiz va nima qilish kerakligini ko‘rsatamiz.</p></div>
+    <div class="step"><h3>Narx kelishiladi</h3><p>Ish va qismlar narxini oldindan aytamiz, siz rozilik berasiz.</p></div>
+    <div class="step"><h3>Ta’mir va kafolat</h3><p>Ishni bajaramiz, eski qismlarni ko‘rsatamiz va kafolat beramiz.</p></div>
+  </div>
+</div></section>
+
+<section class="services" id="ustaxona"><div class="wrap">
+  <div class="sec-head">
+    <div><div class="label">Ustaxona va ish jarayoni</div><h2>Ustaxonamiz</h2></div>
+    <p>Bu joylarga ustaxonangiz, ustalaringiz va bajarilgan ishlar rasmlari qo‘yiladi.</p>
+  </div>
+  <div class="photos">
+    <div class="slot"><div><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="9" cy="11" r="2"/><path d="M21 16l-5-5-8 8"/></svg><b>Ustaxona umumiy ko‘rinishi</b><small>Asosiy rasm</small></div></div>
+    <div class="slot"><div><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="9" cy="11" r="2"/><path d="M21 16l-5-5-8 8"/></svg><b>Usta ish paytida</b></div></div>
+    <div class="slot"><div><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="9" cy="11" r="2"/><path d="M21 16l-5-5-8 8"/></svg><b>Diagnostika uskunasi</b></div></div>
+    <div class="slot"><div><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="9" cy="11" r="2"/><path d="M21 16l-5-5-8 8"/></svg><b>Ko‘targich (podyomnik)</b></div></div>
+    <div class="slot"><div><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="9" cy="11" r="2"/><path d="M21 16l-5-5-8 8"/></svg><b>Tayyor mashina</b></div></div>
+  </div>
+</div></section>
+
+<section id="sharhlar"><div class="wrap">
+  <div class="sec-head">
+    <div><div class="label">Mijozlar fikrlari</div><h2>Mijozlar nima deydi</h2></div>
+    <span class="sample">Namuna sharhlar</span>
+  </div>
+  <div class="rev-grid">
+    <article class="rev"><div class="stars" aria-label="5 yulduz">★★★★★</div><p>Bu joyga mijozning haqiqiy sharhi qo‘yiladi: qanday ish qilingani va natija haqida.</p><footer><span>Mijoz ismi</span><span>Mashina modeli</span></footer></article>
+    <article class="rev"><div class="stars" aria-label="5 yulduz">★★★★★</div><p>Google Maps yoki Telegramdagi real sharhlardan ustaxona egasining roziligi bilan olinadi.</p><footer><span>Mijoz ismi</span><span>Mashina modeli</span></footer></article>
+    <article class="rev"><div class="stars" aria-label="5 yulduz">★★★★★</div><p>Uchta qisqa, aniq sharh yangi mijozlarning ishonchini oshiradi.</p><footer><span>Mijoz ismi</span><span>Mashina modeli</span></footer></article>
+  </div>
+</div></section>
+
+<section class="services book" id="navbat"><div class="wrap">
+  <form class="slip" id="bookForm" novalidate>
+    <div class="label">Oldindan navbatga yozilish</div>
+    <h3>Qulay vaqtni tanlang</h3>
+    <div class="row2">
+      <div class="field"><label for="f-name">Ismingiz</label><input id="f-name" name="name" autocomplete="name" placeholder="Masalan: Aziz" required></div>
+      <div class="field"><label for="f-phone">Telefon</label><input id="f-phone" name="phone" type="tel" autocomplete="tel" placeholder="+998 __ ___ __ __" required></div>
+    </div>
+    <div class="row2">
+      <div class="field"><label for="f-car">Mashina</label><input id="f-car" name="car" placeholder="Masalan: Cobalt, 2019"></div>
+      <div class="field"><label for="f-svc">Xizmat</label>
+        <select id="f-svc" name="svc"><option>Kompyuter diagnostika</option><option>Moy almashtirish</option><option>Tormoz tizimi</option><option>Xodovoy qism</option><option>Dvigatel ta’miri</option><option>Avtoelektrik</option><option>Konditsioner</option><option>Razval-sxojdeniye</option><option>Boshqa</option></select></div>
+    </div>
+    <div class="row2">
+      <div class="field"><label for="f-date">Sana</label><input id="f-date" name="date" type="date"></div>
+      <div class="field"><label for="f-time">Vaqt</label>
+        <select id="f-time" name="time"><option>09:00</option><option>10:00</option><option>11:00</option><option>12:00</option><option>14:00</option><option>15:00</option><option>16:00</option><option>17:00</option><option>18:00</option></select></div>
+    </div>
+    <button class="btn" type="submit">Navbatga yozilish</button>
+    <div class="done" id="done" hidden></div>
+  </form>
+
+  <div id="aloqa">
+    <div class="sec-head" style="margin-bottom:24px"><div><div class="label">Manzil va aloqa</div><h2>Bizni toping</h2></div></div>
+    <div class="info">
+      <div class="item"><span>Manzil</span><span>Ko‘cha nomi, 1, Toshkent<br><small style="color:var(--muted);font-size:14px;font-weight:400">Mo‘ljal: yaqin atrofdagi taniqli joy</small></span></div>
+      <div class="item"><span>Telefon</span><span style="font-family:var(--mono)">+998 XX XXX XX XX</span></div>
+      <div class="item"><span>Ish vaqti</span><span class="hours"><span>Du–Sha</span><span>09:00 – 20:00</span><span>Yakshanba</span><span>10:00 – 17:00</span></span></div>
+    </div>
+    <div class="contact-btns">
+      <a class="btn tg" href="#aloqa"><svg viewBox="0 0 24 24"><path d="M21 4L3 11l6 2 2 6 3-4 5 4z"/><path d="M9 13l12-9"/></svg>Telegram orqali yozish</a>
+      <a class="btn ghost" href="#aloqa"><svg viewBox="0 0 24 24"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1 1 .4 1.9.7 2.8a2 2 0 0 1-.5 2.1L8 9.9a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.8.7a2 2 0 0 1 1.7 2z"/></svg>Qo‘ng‘iroq qilish</a>
+    </div>
+  </div>
+</div></section>
+
+<footer class="site"><div class="wrap"><span>© 2026 Motor Usta · Demo sayt</span><span>Avtoservis · Toshkent</span></div></footer>
+
+<script>
+(function(){
+  var d=document.getElementById('f-date');
+  try{var t=new Date();t.setDate(t.getDate()+1);d.value=t.toISOString().slice(0,10);d.min=new Date().toISOString().slice(0,10);}catch(e){}
+  var f=document.getElementById('bookForm'),done=document.getElementById('done');
+  f.addEventListener('submit',function(e){
+    e.preventDefault();
+    var n=f.name.value.trim(),p=f.phone.value.trim();
+    if(!n||!p){done.hidden=false;done.style.borderColor='var(--accent)';done.innerHTML='<b style="color:var(--accent)">Ism va telefonni kiriting.</b> Usta siz bilan shu raqam orqali bog‘lanadi.';return;}
+    done.style.borderColor='';
+    done.hidden=false;
+    done.innerHTML='<b>Demo:</b> '+n.replace(/[<>&]/g,'')+', '+f.svc.value+' uchun '+f.date.value+' kuni soat '+f.time.value+' tanlandi. Haqiqiy saytda bu so‘rov ustaxonaga Telegram orqali yetib boradi.';
+  });
+})();
+</script>
+
+</body>
+</html>
